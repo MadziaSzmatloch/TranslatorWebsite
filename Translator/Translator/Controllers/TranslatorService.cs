@@ -6,7 +6,7 @@ namespace Translator.Controllers
     public static class TranslatorService
     {
 
-        public static async Task<string> Translate(string inputText, string sourceLanguage, string targetLanguage)
+        public static async Task<string> Translate(string inputText, string? sourceLanguage, string targetLanguage)
         {
             string key = "0971106f0ed541fab2e651a1085256a8";
 
@@ -20,6 +20,25 @@ namespace Translator.Controllers
                 TranslatedTextItem translation = translations.FirstOrDefault();
 
                 return translation?.Translations?.FirstOrDefault()?.Text;
+            }
+            catch (RequestFailedException exception)
+            {
+                throw exception;
+            }
+        }
+
+
+        public static async Task<IReadOnlyDictionary<string, TranslationLanguage>> GetLanguages()
+        {
+            string key = "0971106f0ed541fab2e651a1085256a8";
+
+            AzureKeyCredential credential = new(key);
+            TextTranslationClient client = new(credential, "westeurope");
+
+            try
+            {
+                var result = await client.GetLanguagesAsync(scope: "translation");
+                return result.Value.Translation;
             }
             catch (RequestFailedException exception)
             {

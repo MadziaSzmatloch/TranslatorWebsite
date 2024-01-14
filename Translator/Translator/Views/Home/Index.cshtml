@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+        <div class="input_container">
+            <select>
+                <option>autodetect</option>
+                <option>polish</option>
+                <option>english</option>
+            </select>
+            <textarea class="source_text" placeholder="text to translate"></textarea>
+        </div>
+        <button class="invert_lenguage_btn"><img src="~/images/invert.png"/></button>
+        <div class="input_container">
+            <select>
+                <option>autodetect</option>
+                <option>polish</option>
+                <option>english</option>
+            </select>
+            <textbox class="output_text">translated text</textbox>
+        </div>
+</div>
+
+<style>
+    .container{
+        display: flex;
+    }
+
+    .input_container{
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    select{
+        margin-bottom: 20px;
+        height: 40px;
+        border-width: 2px;
+        border-color: #B896E2;
+        border-style: solid;
+        border-radius: 5px;
+    }
+
+    .source_text{
+        border-width: 2px;
+        border-color: #B896E2;
+        border-style: solid;
+        border-radius: 5px;
+        width: 500px;
+        height: 200px;
+        padding: 10px;
+    }
+
+        .source_text::placeholder{
+            position: absolute;
+            top: 10px;
+        }
+
+        .source_text:focus {
+            outline: none;
+        }
+
+    .output_text{
+        border:solid;
+        border-width: 2px;
+        border-color: #B896E2;
+        border-radius: 5px;
+        width: 500px;
+        height: 200px;
+        padding: 10px;
+    }
+
+    .invert_lenguage_btn{
+        height: 40px;
+        width: 40px;
+        margin-top: 10px;
+        background-color: #B896E2;
+        border: none;
+        border-radius: 5px;
+    }
+</style>

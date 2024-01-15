@@ -47,7 +47,7 @@ select {
     padding: 10px;
 }
 
-.invert_lenguage_btn {
+.switch_language_btn {
     height: 40px;
     width: 40px;
     margin-top: 10px;
@@ -72,7 +72,7 @@ select {
     .output_text {
         width: 60vw;
     }
-    .invert_lenguage_btn{
+    .switch_language_btn {
         margin: 10px;
     }
 }

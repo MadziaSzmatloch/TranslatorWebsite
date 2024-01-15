@@ -15,7 +15,7 @@
             </select>
             <textarea id="input" class="source_text" placeholder="text to translate"></textarea>
         </div>
-        <button class="invert_lenguage_btn"><img src="~/images/invert.png"/></button>
+        <button class="switch_language_btn" onclick="switchLanguages()"><img src="~/images/invert.png" /></button>
         <div class="input_container">
         <select id="target_language">
                 @foreach(var lang in Model)
@@ -61,4 +61,13 @@
     $("#target_language").on("change", function () {
         translate();
     });
+
+    function switchLanguages() {
+        var inputLanguage = $("#input_language").val();
+        var targetLanguage = $("#target_language").val();
+
+        $("#input_language").val(targetLanguage);
+        $("#target_language").val(inputLanguage);
+        translate();
+    }
 </script>

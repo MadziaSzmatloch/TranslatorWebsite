@@ -8,6 +8,7 @@
 <div class="container">
         <div class="input_container">
         <select id="input_language">
+            <option value="null">Autodetect</option>
             @foreach (var lang in Model)
             {
                 <option value="@lang.Key">@lang.Value.Name</option>

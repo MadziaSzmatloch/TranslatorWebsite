@@ -67,8 +67,23 @@
         var inputLanguage = $("#input_language").val();
         var targetLanguage = $("#target_language").val();
 
-        $("#input_language").val(targetLanguage);
-        $("#target_language").val(inputLanguage);
+        $("#input_language").val(targetLanguage).trigger('change');
+        $("#target_language").val(inputLanguage).trigger('change');
         translate();
     }
+
+    $(document).ready(function () {
+        $('#input_language').select2({
+            placeholder: 'Select or enter custom language',
+            allowClear: true, // Dodaj opcję wyczyszczenia wyboru
+            dropdownSearch: true, // Włącz opcję wyszukiwania w rozwijanym menu
+            minimumInputLength: 0,
+        });
+        $('#target_language').select2({
+            placeholder: 'Select or enter custom language',
+            allowClear: true, // Dodaj opcję wyczyszczenia wyboru
+            dropdownSearch: true, // Włącz opcję wyszukiwania w rozwijanym menu
+            minimumInputLength: 0,
+        });
+    });
 </script>

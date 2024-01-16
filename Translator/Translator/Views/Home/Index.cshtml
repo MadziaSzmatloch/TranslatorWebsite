@@ -7,24 +7,24 @@
 
 <div class="container">
         <div class="input_container">
-        <select id="input_language">
-            <option value="null">Autodetect</option>
-            @foreach (var lang in Model)
-            {
-                <option value="@lang.Key">@lang.Value.Name</option>
-            }
+            <select id="input_language">
+                <option value="null">Autodetect</option>
+                @foreach (var lang in Model)
+                {
+                    <option value="@lang.Key">@lang.Value.Name</option>
+                }
             </select>
             <textarea id="input" class="source_text" placeholder="text to translate"></textarea>
         </div>
         <button class="switch_language_btn" onclick="switchLanguages()"><img src="~/images/invert.png" /></button>
         <div class="input_container">
-        <select id="target_language">
-                @foreach(var lang in Model)
-                {
-                    <option value="@lang.Key">@lang.Value.Name</option>
-                }
+            <select id="target_language">
+                    @foreach(var lang in Model)
+                    {
+                        <option value="@lang.Key">@lang.Value.Name</option>
+                    }
             </select>
-        <textbox id="output" class="output_text"></textbox>
+            <textarea id="output" class="output_text"></textarea>
         </div>
 </div>
 
@@ -33,6 +33,7 @@
         var input = $("#input").val();
         var sourceLang = $("#input_language").val();
         var targetLang = $("#target_language").val();
+        console.log(sourceLang, targetLang);
         $.ajax({
             type: "POST",
             url: "/Home/Translate",
@@ -51,6 +52,17 @@
         })
     }
 
+    function switchLanguages() {
+        var valueSelect1 = $('#target_language')[0].selectize.getValue();
+        var valueSelect2 = $('#input_language')[0].selectize.getValue();
+        $('#target_language')[0].selectize.setValue(valueSelect2);
+        $('#input_language')[0].selectize.setValue(valueSelect1);
+
+        var output = $('#output').val();
+        $('#input').val(output);
+        translate();
+    }
+
     $("#input").on("input", function () {
         translate();
     })
@@ -63,27 +75,9 @@
         translate();
     });
 
-    function switchLanguages() {
-        var inputLanguage = $("#input_language").val();
-        var targetLanguage = $("#target_language").val();
-
-        $("#input_language").val(targetLanguage).trigger('change');
-        $("#target_language").val(inputLanguage).trigger('change');
-        translate();
-    }
-
     $(document).ready(function () {
-        $('#input_language').select2({
-            placeholder: 'Select or enter custom language',
-            allowClear: true, // Dodaj opcję wyczyszczenia wyboru
-            dropdownSearch: true, // Włącz opcję wyszukiwania w rozwijanym menu
-            minimumInputLength: 0,
-        });
-        $('#target_language').select2({
-            placeholder: 'Select or enter custom language',
-            allowClear: true, // Dodaj opcję wyczyszczenia wyboru
-            dropdownSearch: true, // Włącz opcję wyszukiwania w rozwijanym menu
-            minimumInputLength: 0,
+        $('select').selectize({
+            sortField: 'text'
         });
     });
 </script>

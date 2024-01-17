@@ -45,13 +45,14 @@ namespace Translator.Controllers
         [HttpPost]
         public async Task<IActionResult> Translate(string input, string? sourceLang, string? targetLang)
         {
-            if (sourceLang == "null")
+            if (sourceLang == string.Empty)
             {
                 sourceLang = null;
             }
             if (!string.IsNullOrEmpty(input))
             {
                 var result = await TranslatorService.Translate(input, sourceLang, targetLang);
+                result.DetectedLanguage = Languages[result.DetectedLanguage].Name;
                 return Json(result);
             }
             return BadRequest();

@@ -8,7 +8,7 @@
 <div class="container">
         <div class="input_container">
             <select id="input_language">
-                <option value="null">Autodetect</option>
+                <option value="">Autodetect</option>
                 @foreach (var lang in Model)
                 {
                     <option value="@lang.Key">@lang.Value.Name</option>
@@ -33,7 +33,6 @@
         var input = $("#input").val();
         var sourceLang = $("#input_language").val();
         var targetLang = $("#target_language").val();
-        console.log(sourceLang, targetLang);
         $.ajax({
             type: "POST",
             url: "/Home/Translate",
@@ -44,7 +43,10 @@
                 targetLang: targetLang,
             },
             success: function (response) {
-                $("#output").text(response)
+                $("#output").text(response.translation)
+                if (sourceLang === ""){
+                    $('#input_language')[0].selectize.setTextboxValue(`Autodetect (${response.detectedLanguage})`);
+                }
             },
             error: function (error) {
                 console.log(error)

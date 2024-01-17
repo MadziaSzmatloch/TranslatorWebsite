@@ -6,7 +6,7 @@ namespace Translator.Controllers
     public static class TranslatorService
     {
 
-        public static async Task<string> Translate(string inputText, string? sourceLanguage, string targetLanguage)
+        public static async Task<TranslationResult> Translate(string inputText, string? sourceLanguage, string targetLanguage)
         {
             string key = "0971106f0ed541fab2e651a1085256a8";
 
@@ -19,7 +19,12 @@ namespace Translator.Controllers
                 IReadOnlyList<TranslatedTextItem> translations = response.Value;
                 TranslatedTextItem translation = translations.FirstOrDefault();
 
-                return translation?.Translations?.FirstOrDefault()?.Text;
+
+                return new TranslationResult()
+                {
+                    Translation = translation?.Translations.FirstOrDefault().Text,
+                    DetectedLanguage = translation?.DetectedLanguage.Language,
+                };
             }
             catch (RequestFailedException exception)
             {
@@ -45,5 +50,11 @@ namespace Translator.Controllers
                 throw exception;
             }
         }
+    }
+
+    public class TranslationResult
+    {
+        public string? DetectedLanguage { get; set; }
+        public string? Translation { get; set; }
     }
 }

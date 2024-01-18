@@ -44,7 +44,7 @@
             success: function (response) {
                 $("#output").text(response.translation)
                 //$('#input_language')[0].selectize.setTextboxValue(`Autodetect (${response.detectedLanguage})`);
-                $('#detected_language').text(`Autodetect (${response.detectedLanguage})`);
+                $('#detected_language').text(`Detected language: ${response.detectedLanguage}`);
                 $('#detected_language').removeClass('empty');
             },
             error: function (error) {

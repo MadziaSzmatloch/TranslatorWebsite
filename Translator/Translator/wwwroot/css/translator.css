@@ -6,8 +6,23 @@
 .input_container {
     display: flex !important;
     flex-direction: column;
-    margin: 10px;
+    margin: 40px;
 }
+.detected_language {
+    height: 30px;
+    width: 28vw;
+    border: none;
+    text-decoration-color: #B896E2;
+    resize: none;
+    position: absolute;
+    top: 80px
+}
+.detected_language.empty {
+    display: none;
+}
+    .detected_language:focus {
+        outline: none;
+    }
 
 .selectize-input {
     border: 2px solid #B896E2 !important;
@@ -31,6 +46,7 @@ padding: 0px 5px;
     width: 28vw;
     height: 200px;
     padding: 10px;
+    resize: none;
 }
 
     .source_text::placeholder {
@@ -50,15 +66,22 @@ padding: 0px 5px;
     width: 28vw;
     height: 200px;
     padding: 10px;
+    resize: none;
+}
+.output_text:focus {
+    outline: none;
 }
 
 .switch_language_btn {
     height: 30px;
     width: 30px;
-    margin-top: 10px;
+    margin-top: 42px;
     background-color: #B896E2;
     border: none;
     border-radius: 5px;
+}
+.switch_language_btn.disabled{
+    background-color: lightgray;
 }
 
     .switch_language_btn img {
@@ -90,4 +113,7 @@ padding: 0px 5px;
         .switch_language_btn {
             margin: 10px;
         }
-    }
+
+        .detected_language {
+            width: 60vw;
+        }

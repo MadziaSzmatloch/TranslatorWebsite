@@ -43,16 +43,23 @@ namespace Translator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Translate(string input, string? sourceLang, string? targetLang)
+        public async Task<IActionResult> TranslateWithDetection(string input, string targetLang)
         {
-            if (sourceLang == string.Empty)
+            if (!string.IsNullOrEmpty(input))
             {
-                sourceLang = null;
+                var result = await TranslatorService.TranslateWithDetection(input, targetLang);
+                result.DetectedLanguage = Languages[result.DetectedLanguage].Name;
+                return Json(result);
             }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Translate(string input, string sourceLang, string targetLang)
+        {
             if (!string.IsNullOrEmpty(input))
             {
                 var result = await TranslatorService.Translate(input, sourceLang, targetLang);
-                result.DetectedLanguage = Languages[result.DetectedLanguage].Name;
                 return Json(result);
             }
             return BadRequest();

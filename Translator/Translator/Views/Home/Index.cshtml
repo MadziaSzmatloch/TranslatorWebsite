@@ -8,7 +8,7 @@
 <div class="container">
         <div class="input_container">
             <select id="input_language">
-                <option value="">Autodetect</option>
+                <option value="autodetect">Autodetect</option>
                 @foreach (var lang in Model)
                 {
                     <option value="@lang.Key">@lang.Value.Name</option>
@@ -16,7 +16,7 @@
             </select>
             <textarea id="input" class="source_text" placeholder="text to translate"></textarea>
         </div>
-        <button class="switch_language_btn" onclick="switchLanguages()"><img src="~/images/invert.png" /></button>
+        <button id="switch_language_btn" class="switch_language_btn" onclick="switchLanguages()"><img src="~/images/invert.png" /></button>
         <div class="input_container">
             <select id="target_language">
                     @foreach(var lang in Model)
@@ -29,24 +29,42 @@
 </div>
 
 <script>
-    function translate(){
+    function translateWithDetection(){
+        var input = $("#input").val();
+        var targetLang = $("#target_language").val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/TranslateWithDetection",
+            data: 
+            {
+                input: input,
+                targetLang: targetLang,
+            },
+            success: function (response) {
+                $("#output").text(response.translation)
+                $('#input_language')[0].selectize.setTextboxValue(`Autodetect (${response.detectedLanguage})`);
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    }
+
+    function translate() {
         var input = $("#input").val();
         var sourceLang = $("#input_language").val();
         var targetLang = $("#target_language").val();
         $.ajax({
             type: "POST",
             url: "/Home/Translate",
-            data: 
+            data:
             {
-                input : input,
+                input: input,
                 sourceLang: sourceLang,
                 targetLang: targetLang,
             },
             success: function (response) {
-                $("#output").text(response.translation)
-                if (sourceLang === ""){
-                    $('#input_language')[0].selectize.setTextboxValue(`Autodetect (${response.detectedLanguage})`);
-                }
+                $("#output").text(response)
             },
             error: function (error) {
                 console.log(error)
@@ -66,20 +84,37 @@
     }
 
     $("#input").on("input", function () {
-        translate();
+        var sourceSelectedLang = $('#input_language')[0].selectize.getValue();
+        if (sourceSelectedLang === "autodetect") {
+            translateWithDetection()
+        }else{
+            translate();
+        }
+        var input = $("#input").val();
+        if (input == "") {
+            $("#output").text("");
+        }
     })
 
-    $("#input_language").on("change", function () {
-        translate();
-    });
-
-    $("#target_language").on("change", function () {
-        translate();
-    });
 
     $(document).ready(function () {
-        $('select').selectize({
-            sortField: 'text'
+        $('#input_language').selectize({
+            sortField: 'text',
+            onChange: function () {
+                translate();
+                if ($('#target_language')[0].selectize.getValue() == "autodetect") {
+                    $('#switch_language_btn').prop("disabled", true)
+                } else {
+                    $('#switch_language_btn').prop("disabled", false)
+                }
+            }
+        });
+
+        $('#target_language').selectize({
+            sortField: 'text',
+            onChange: function () {
+                translate();
+            }
         });
     });
 </script>

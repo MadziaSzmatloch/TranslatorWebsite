@@ -96,17 +96,21 @@
         }
     })
 
+    function changeButtonEnabled(){
+        if ($('#input_language')[0].selectize.getValue() === "autodetect") {
+            $('#switch_language_btn').prop('disabled', true);
+        } else {
+            $('#switch_language_btn').prop('disabled', false)
+        }
+    }
+
 
     $(document).ready(function () {
         $('#input_language').selectize({
             sortField: 'text',
             onChange: function () {
                 translate();
-                if ($('#target_language')[0].selectize.getValue() == "autodetect") {
-                    $('#switch_language_btn').prop("disabled", true)
-                } else {
-                    $('#switch_language_btn').prop("disabled", false)
-                }
+                changeButtonEnabled();
             }
         });
 
@@ -116,5 +120,6 @@
                 translate();
             }
         });
+        changeButtonEnabled();
     });
 </script>
